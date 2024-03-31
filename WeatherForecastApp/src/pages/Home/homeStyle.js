@@ -5,14 +5,14 @@ export const homeStyles = StyleSheet.create({
         flex:1,
     },
     header:{
-        backgroundColor:"#748E63",
         flex:1,
         alignItems:"center",
+        justifyContent:"center"
     },
     headerText:{
         color:"white",
-        padding:10,
-        fontSize:20
+        paddingTop:14,
+        fontSize:25
     },
     locationView:{
         backgroundColor:"rgba(0,0,0,0.2)",
@@ -36,6 +36,25 @@ export const homeStyles = StyleSheet.create({
         position:"absolute",
         width:"100%",
         height:"100%"
+    },
+    cloud:{
+        flex:1,
+        alignItems:"center",
+        marginTop:25,
+        justifyContent:"center"
+    },
+    cloudIcon:{
+        color:"white",
+        fontSize:150
+    },
+    temp:{
+        flex:1,
+        alignItems:"center",
+        justifyContent:"center"
+    },
+    tempText:{
+        color:"white",
+        fontSize:50
     }
   });
   
