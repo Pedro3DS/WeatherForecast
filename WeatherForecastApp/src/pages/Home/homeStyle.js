@@ -1,6 +1,12 @@
 import { StyleSheet } from "react-native";
 
 export const homeStyles = StyleSheet.create({
+    infosBg:{
+        backgroundColor:"rgba(0,0,0,0.2)",
+        marginHorizontal:14,
+        marginTop:20,
+        borderRadius:10
+    },
     container: {
         flex:1,
     },
@@ -10,9 +16,11 @@ export const homeStyles = StyleSheet.create({
         justifyContent:"center"
     },
     headerText:{
-        color:"white",
-        paddingTop:14,
-        fontSize:25
+        color:"#ffffff",
+        paddingVertical:10,
+        paddingHorizontal:25,
+        fontSize:25,
+        fontWeight:"bold",
     },
     locationView:{
         backgroundColor:"rgba(0,0,0,0.2)",
@@ -40,7 +48,6 @@ export const homeStyles = StyleSheet.create({
     cloud:{
         flex:1,
         alignItems:"center",
-        marginTop:25,
         justifyContent:"center"
     },
     cloudIcon:{
@@ -55,6 +62,14 @@ export const homeStyles = StyleSheet.create({
     tempText:{
         color:"white",
         fontSize:50
+    },
+    shadowProps:{
+        shadowColor: '#000000',
+        shadowOffset: {width: -4, height: 6},
+        shadowOpacity: 0.2,
+        shadowRadius: 1,
+        elevation: 100,
+        backgroundColor:"white"
     }
   });
   
