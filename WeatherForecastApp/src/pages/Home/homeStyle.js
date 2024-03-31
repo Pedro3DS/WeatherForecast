@@ -13,7 +13,7 @@ export const homeStyles = StyleSheet.create({
     header:{
         flex:1,
         alignItems:"center",
-        justifyContent:"center"
+        justifyContent:"center",
     },
     headerText:{
         color:"#ffffff",
@@ -21,6 +21,11 @@ export const homeStyles = StyleSheet.create({
         paddingHorizontal:25,
         fontSize:25,
         fontWeight:"bold",
+        textAlign:"center"
+    },
+    headerCityText:{
+        fontWeight:"normal",
+        fontSize:20
     },
     locationView:{
         backgroundColor:"rgba(0,0,0,0.2)",
@@ -63,13 +68,31 @@ export const homeStyles = StyleSheet.create({
         color:"white",
         fontSize:50
     },
-    shadowProps:{
-        shadowColor: '#000000',
-        shadowOffset: {width: -4, height: 6},
-        shadowOpacity: 0.2,
-        shadowRadius: 1,
-        elevation: 100,
-        backgroundColor:"white"
+    weatherContainer:{
+        flex:1,
+        justifyContent:"space-between",
+        alignItems:"center",
+        flexDirection:"row",
+        marginVertical:20,
+        marginHorizontal:35
+    },
+    weatherInfos:{
+        flex:1,
+        alignItems:"flex-start",
+        justifyContent:"center",
+    },
+    weatherInfosRow:{
+        flex:1,
+        flexDirection:"row",
+        alignItems:"center"
+    },
+    weatherInfosText:{
+        color:"#ffffff",
+        fontSize:20,
+    },
+    weatherInfosIcon:{
+        fontSize:30,
+        color:"#ffffff"
     }
   });
   

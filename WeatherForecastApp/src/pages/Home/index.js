@@ -2,6 +2,7 @@ import { FlatList, SafeAreaView, SafeAreaViewBase, ScrollView, StatusBar, Text, 
 import { homeStyles } from './homeStyle';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import Entypo from "@expo/vector-icons/Entypo"
 import { useCallback, useState } from 'react';
 import { TextInput } from 'react-native';
 import { Image } from 'react-native';
@@ -21,12 +22,13 @@ export default function Home() {
       
     }
   }
-  const handleDebouceText = useCallback(debounce(handleText, 1200), [])
-
+  const handleDebouceText = useCallback(debounce(handleText, 1200), []);
+  
   return (
     <SafeAreaView style={homeStyles.container}>
-      <Image blurRadius={15} style={homeStyles.backGround} source={require("../../assets/bgSky.jpg")}/>
+      <Image blurRadius={15} style={homeStyles.backGround} source={require("../../assets/sunnyBg.jpg")}/>
       <StatusBar />
+
       <ScrollView>
         <View placeholder='Location' style={homeStyles.locationView}>
           <FontAwesome name='search' style={homeStyles.locationSearch}/>
@@ -46,14 +48,38 @@ export default function Home() {
         <View style={homeStyles.infosBg}>
 
           <View style={homeStyles.header}>
-            <Text style={homeStyles.headerText}>Londom</Text>
+            <Text style={homeStyles.headerText}>Brazil, <Text style={homeStyles.headerCityText}>MS/Campo Grande</Text></Text>
           </View>
-          <View style={homeStyles.cloud}>
-            <MaterialCommunityIcons style={homeStyles.cloudIcon} name='weather-cloudy'/>
+
+          <View style={homeStyles.weatherContainer}>
+            <View style={homeStyles.weatherRow}>
+              <View style={homeStyles.cloud}>
+                <MaterialCommunityIcons style={homeStyles.cloudIcon} name='weather-cloudy'/>
+              </View>
+              <View style={homeStyles.temp}>
+                <Text style={homeStyles.tempText}>25°</Text>
+              </View>
+            </View>
+            
+            <View style={homeStyles.weatherInfosContainer}>
+
+              <View style={homeStyles.weatherInfos}>
+                <View style={homeStyles.weatherInfosRow}>
+                  <MaterialCommunityIcons style={homeStyles.weatherInfosIcon} name='weather-windy'/>
+                  <Text style={homeStyles.weatherInfosText}>22 km</Text>
+                </View>
+                <View style={homeStyles.weatherInfosRow}>
+                  <MaterialCommunityIcons style={homeStyles.weatherInfosIcon} name='water'/>
+                  <Text style={homeStyles.weatherInfosText}>23%</Text>
+                </View>
+                <View style={homeStyles.weatherInfosRow}>
+                  <MaterialCommunityIcons style={homeStyles.weatherInfosIcon} name='clock'/>
+                  <Text style={homeStyles.weatherInfosText}>6:06 am</Text>
+                </View>
+              </View>
+            </View>
           </View>
-          <View style={homeStyles.temp}>
-            <Text style={homeStyles.tempText}>25°</Text>
-          </View>
+          
         </View>
 
       </ScrollView>
