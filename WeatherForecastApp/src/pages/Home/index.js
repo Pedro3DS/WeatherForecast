@@ -26,7 +26,7 @@ export default function Home() {
   
   return (
     <SafeAreaView style={homeStyles.container}>
-      <Image blurRadius={15} style={homeStyles.backGround} source={require("../../assets/sunnyBg.jpg")}/>
+      <Image blurRadius={15} style={homeStyles.backGround} source={require("../../assets/bgSky.jpg")}/>
       <StatusBar />
 
       <ScrollView>
@@ -80,6 +80,15 @@ export default function Home() {
             </View>
           </View>
           
+        </View>
+        <View style={homeStyles.daysWeather}>
+          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Segunda-Feira, Sol</Text></View>
+          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-lightning'/><Text style={homeStyles.daysTextWeather}>Terça-Feira, Repangelejo</Text></View>
+          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Quarta-Feira, Sol</Text></View>
+          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Quinta-Feira, Sol</Text></View>
+          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Sexta-Feira, Sol</Text></View>
+          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Sabado, Sol</Text></View>
+          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Domingo, Sol</Text></View>
         </View>
 
       </ScrollView>

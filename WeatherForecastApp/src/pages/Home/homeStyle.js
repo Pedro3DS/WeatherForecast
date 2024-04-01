@@ -93,6 +93,28 @@ export const homeStyles = StyleSheet.create({
     weatherInfosIcon:{
         fontSize:30,
         color:"#ffffff"
+    },
+    daysWeather:{
+        borderRadius:10,
+        marginVertical:50,
+        flex:1,
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    dayWeather:{
+
+        backgroundColor:"#ffffff",
+        flex:1,
+        flexDirection:"row",
+        alignItems:"center",
+        marginVertical:14,
+        width:"80%"
+    },
+    daysIconWeather:{
+        fontSize:50,
+    },
+    daysTextWeather:{
+        fontSize:25
     }
   });
   
