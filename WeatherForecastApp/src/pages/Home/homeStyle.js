@@ -94,27 +94,37 @@ export const homeStyles = StyleSheet.create({
         fontSize:30,
         color:"#ffffff"
     },
+    daysWeatherContainer:{
+        flex:1,
+        justifyContent:"center",
+        alignItems:"center",
+        marginTop:50
+    },
     daysWeather:{
+        width:"92%",
         borderRadius:10,
-        marginVertical:50,
         flex:1,
         justifyContent:"center",
         alignItems:"center"
     },
     dayWeather:{
-
-        backgroundColor:"#ffffff",
         flex:1,
         flexDirection:"row",
         alignItems:"center",
-        marginVertical:14,
-        width:"80%"
+        borderRadius:10,
+        marginVertical:10,
+        width:"100%",
+        backgroundColor:"rgba(0,0,0,0.2)",
     },
     daysIconWeather:{
-        fontSize:50,
+        fontSize:25,
+        color:"#ffffff",
+        marginStart:15
     },
     daysTextWeather:{
-        fontSize:25
+        fontSize:25,
+        color:"#ffffff",
+        padding:10
     }
   });
   

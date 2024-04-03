@@ -9,10 +9,13 @@ import { Image } from 'react-native';
 import { fetchLocations, fetchWeatherForecast } from '../../../api/weather';
 import { debounce } from 'lodash'
 
+import { getWeather } from '../../../api/weather';
 
 export default function Home() {
   const [location, setLocation] = useState([]);
-
+  const [currentTemp, setCurrentTemp] = useState("0")
+  const [currentWindSpeed, setCurrentWindSpeed] = useState("0")
+  
   
   const handleText = text =>{
     if(text.length > 2){
@@ -23,10 +26,25 @@ export default function Home() {
     }
   }
   const handleDebouceText = useCallback(debounce(handleText, 1200), []);
+  getWeather( -54.6478, -20.4435, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
+    res => {
+      setCurrentTemp(Math.round((res['current']['highTemp']-32)*(5/9)))
+      setCurrentWindSpeed(Math.round(res['current']['windSpeed']* 1.609344))
+      console.log(res["daily"])
+    })
+  // function renderWeather({current, daily, hourly}){
+  //   renderCurrentWeather(current)
+  //   // renderDailyWeather(daily)
+  //   // renderHourlyWeather(hourly)
+  // }
   
+  // function renderCurrentWeather(current){
+
+  // }
+
   return (
     <SafeAreaView style={homeStyles.container}>
-      <Image blurRadius={15} style={homeStyles.backGround} source={require("../../assets/bgSky.jpg")}/>
+      <Image blurRadius={15} style={homeStyles.backGround} source={require("../../assets/sunnyBg.jpg")}/>
       <StatusBar />
 
       <ScrollView>
@@ -57,16 +75,16 @@ export default function Home() {
                 <MaterialCommunityIcons style={homeStyles.cloudIcon} name='weather-cloudy'/>
               </View>
               <View style={homeStyles.temp}>
-                <Text style={homeStyles.tempText}>25°</Text>
+                <Text style={homeStyles.tempText}>{currentTemp}°</Text>
               </View>
             </View>
             
-            <View style={homeStyles.weatherInfosContainer}>
+            <View>
 
               <View style={homeStyles.weatherInfos}>
                 <View style={homeStyles.weatherInfosRow}>
                   <MaterialCommunityIcons style={homeStyles.weatherInfosIcon} name='weather-windy'/>
-                  <Text style={homeStyles.weatherInfosText}>22 km</Text>
+                  <Text style={homeStyles.weatherInfosText}>{currentWindSpeed} km</Text>
                 </View>
                 <View style={homeStyles.weatherInfosRow}>
                   <MaterialCommunityIcons style={homeStyles.weatherInfosIcon} name='water'/>
@@ -81,14 +99,17 @@ export default function Home() {
           </View>
           
         </View>
-        <View style={homeStyles.daysWeather}>
-          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Segunda-Feira, Sol</Text></View>
-          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-lightning'/><Text style={homeStyles.daysTextWeather}>Terça-Feira, Repangelejo</Text></View>
-          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Quarta-Feira, Sol</Text></View>
-          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Quinta-Feira, Sol</Text></View>
-          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Sexta-Feira, Sol</Text></View>
-          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Sabado, Sol</Text></View>
-          <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Domingo, Sol</Text></View>
+        <View style={homeStyles.daysWeatherContainer}>
+
+          <View style={homeStyles.daysWeather}>
+            <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Segunda-Feira, Sol</Text></View>
+            <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-lightning'/><Text style={homeStyles.daysTextWeather}>Terça-Feira, Repangelejo</Text></View>
+            <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Quarta-Feira, Sol</Text></View>
+            <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Quinta-Feira, Sol</Text></View>
+            <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Sexta-Feira, Sol</Text></View>
+            <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Sabado, Sol</Text></View>
+            <View style={homeStyles.dayWeather}><MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/><Text style={homeStyles.daysTextWeather}>Domingo, Sol</Text></View>
+          </View>
         </View>
 
       </ScrollView>

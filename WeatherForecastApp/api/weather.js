@@ -1,26 +1,65 @@
 import axios from 'axios'
-import { apiKey } from './constants';
 
-const forecastEndPoint = params => `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${params.cityName}&days=${params.days}&aqi=no&alerts=no`;
-const locationsEndPoint = params => `https://api.weatherapi.com/v1/search.json?key=66331fd493a74ca8b4f00354243103&q=${params.cityName}`;
+export function getWeather(lon, lat, timezone){
+    return axios.get("https://api.open-meteo.com/v1/forecast?hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timeformat=unixtime", {
+        params:{
+            latitude: lat,
+            longitude: lon,
+            timezone,
+        }
+    }).then(({data}) => {
+        return{
+            current: parseCurrentWeather(data),
+            daily: parseDailyWeather(data),
+            hourly: parseHourlyWeather(data)
+        }
+    })
 
-const apiCall = async (endPoint) => {
-    const options = {
-        method: 'GET',
-        url: endPoint
-    };
-    try{
-        const result = await axios.request(options);
-        return result;
-    }catch(e){
-        console.log(`Error => ${e}`);
-        return null;
-    };
 }
 
-export const fetchWeatherForecast = params => {
-    return apiCall(forecastEndPoint(params));
+function parseCurrentWeather({current_weather, daily}){
+    const { 
+        temperature: currentTemp,
+        windspeed: windSpeed,
+        weathercode: iconCode
+    } = current_weather
+    const {
+        temperature_2m_max: [maxTemp],
+        temperature_2m_min: [minTemp],
+        apparent_temperature_max: [maxFeelsLike],
+        apparent_temperature_min: [minFeelsLike],
+        precipitation_sum: [precip],
+    } = daily
+    return{
+        currentTemp: Math.round(currentTemp),
+        highTemp: Math.round(maxTemp),
+        lowTemp: Math.round(minTemp),
+        highFeelsLike: Math.round(maxFeelsLike),
+        lowFeelsLike: Math.round(minFeelsLike),
+        windSpeed: Math.round(windSpeed),
+        precip: Math.round(precip * 100) / 100,
+        iconCode,
+    }
 }
-export const fetchLocations = params => {
-    return apiCall(locationsEndPoint(params));
+function parseDailyWeather({daily}){
+    return daily.time.map((time, index) => {
+        return{
+            timeStamp: time * 1000,
+            iconCode: daily.weathercode[index],
+            maxTemp: Math.round(daily.temperature_2m_max[index])
+        }
+    })
+}
+
+function parseHourlyWeather({hourly, current_weather}){
+    return hourly.time.map((time, index) => {
+        return{
+            timeStamp: time * 1000,
+            iconCode: hourly.weathercode[index],
+            temp: Math.round(hourly.temperature_2m[index]),
+            feelsLike: Math.round(hourly.apparent_temperature[index]),
+            windSpeed: Math.round(hourly.windspeed_10m[index]),
+            precip: Math.round(hourly.precipitation[index] * 100) / 10,
+        }
+    }).filter(({ timeStamp }) => timeStamp >= current_weather.time * 100)
 }
