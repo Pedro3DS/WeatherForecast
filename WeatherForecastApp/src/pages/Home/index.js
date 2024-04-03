@@ -30,7 +30,7 @@ export default function Home() {
     res => {
       setCurrentTemp(Math.round((res['current']['highTemp']-32)*(5/9)))
       setCurrentWindSpeed(Math.round(res['current']['windSpeed']* 1.609344))
-      console.log(res["daily"])
+      console.log(res)
     })
   // function renderWeather({current, daily, hourly}){
   //   renderCurrentWeather(current)
@@ -44,7 +44,7 @@ export default function Home() {
 
   return (
     <SafeAreaView style={homeStyles.container}>
-      <Image blurRadius={15} style={homeStyles.backGround} source={require("../../assets/sunnyBg.jpg")}/>
+      <Image blurRadius={15} style={homeStyles.backGround} source={require("../../assets/nightBg2.jpg")}/>
       <StatusBar />
 
       <ScrollView>
