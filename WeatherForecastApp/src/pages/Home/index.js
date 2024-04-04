@@ -32,15 +32,6 @@ export default function Home() {
       setCurrentWindSpeed(Math.round(res['current']['windSpeed']* 1.609344))
       console.log(res)
     })
-  // function renderWeather({current, daily, hourly}){
-  //   renderCurrentWeather(current)
-  //   // renderDailyWeather(daily)
-  //   // renderHourlyWeather(hourly)
-  // }
-  
-  // function renderCurrentWeather(current){
-
-  // }
 
   return (
     <SafeAreaView style={homeStyles.container}>
@@ -92,7 +83,7 @@ export default function Home() {
                 </View>
                 <View style={homeStyles.weatherInfosRow}>
                   <MaterialCommunityIcons style={homeStyles.weatherInfosIcon} name='clock'/>
-                  <Text style={homeStyles.weatherInfosText}>6:06 am</Text>
+                  <Text style={homeStyles.weatherInfosText}>{currentHour}:{currentMinute} am</Text>
                 </View>
               </View>
             </View>
