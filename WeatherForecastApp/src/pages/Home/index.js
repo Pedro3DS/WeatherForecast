@@ -26,16 +26,17 @@ export default function Home() {
     }
   }
   const handleDebouceText = useCallback(debounce(handleText, 1200), []);
-  getWeather( -54.6478, -20.4435, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
+  getWeather( -54.622265, -20.469265, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
     res => {
-      setCurrentTemp(Math.round((res['current']['highTemp']-32)*(5/9)))
-      setCurrentWindSpeed(Math.round(res['current']['windSpeed']* 1.609344))
+      setCurrentTemp(res['current']['currentTemp'])
+      setCurrentWindSpeed(res['current']['windSpeed'])
+
       console.log(res)
     })
 
   return (
     <SafeAreaView style={homeStyles.container}>
-      <Image blurRadius={15} style={homeStyles.backGround} source={require("../../assets/nightBg2.jpg")}/>
+      <Image blurRadius={35} style={homeStyles.backGround} source={require("../../assets/nightBg.jpg")}/>
       <StatusBar />
 
       <ScrollView>
@@ -83,7 +84,7 @@ export default function Home() {
                 </View>
                 <View style={homeStyles.weatherInfosRow}>
                   <MaterialCommunityIcons style={homeStyles.weatherInfosIcon} name='clock'/>
-                  <Text style={homeStyles.weatherInfosText}>{currentHour}:{currentMinute} am</Text>
+                  <Text style={homeStyles.weatherInfosText}>6:00 am</Text>
                 </View>
               </View>
             </View>
