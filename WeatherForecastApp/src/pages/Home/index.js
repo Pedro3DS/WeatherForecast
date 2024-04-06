@@ -14,31 +14,32 @@ import { getWeather, getCurrentWeather, getDailyWeather, getHourlyWeather } from
 export default function Home() {
   const [location, setLocation] = useState([]);
   const [currentTemp, setCurrentTemp] = useState("0")
+  const [currentTempMax, setCurrentTempMax] = useState("0")
+  const [currentTempMin, setCurrentTempMin] = useState("0")
   const [currentWindSpeed, setCurrentWindSpeed] = useState("0")
   const [currentHumidity, setCurrentHumidity] = useState("0")
   const [currentTime, setCurrentTime] = useState("0")
-  const days = [{id:"0",day:"Domingo"}, {id:"1",day:"Segunda-Feira"},{id:"2",day:"Terça-Feira"},{id:"3",day:"Quarta-Feira"},{id:"4",day:"Quinta-Feira"},{id:"5",day:"Sexta-Feira"}, {id:"6",day:"Sabado"}]
-  
-  
-  const handleText = text =>{
-    if(text.length > 2){
-      fetchLocations({cityName: text}).then(data=>{
-        setLocation(data)
-      })
-      
-    }
-  }
-  const handleDebouceText = useCallback(debounce(handleText, 1200), []);
-  getDailyWeather( -54.622265, -20.469265, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
-    res => {
-      // setCurrentTemp(res['current']['currentTemp'])
-      // setCurrentWindSpeed(res['current']['windSpeed'])
-     
-      // console.log(res['data']['daily'])
-    })
-    const currentDay = new Date().getUTCDay()
-    console.log(currentDay)
+  const days = ["Domingo","Segunda-Feira","Terça-Feira","Quarta-Feira","Quinta-Feira","Sexta-Feira","Sábado"]
+  const currentDays = []
+  const currentDaysTemperature = []
 
+  getDailyWeather( -54.5892082705617, -20.420219415507272, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
+    res => {     
+      setCurrentTempMax(res['data']['daily']['temperature_2m_max'][0])
+      setCurrentTempMin(res['data']['daily']['temperature_2m_min'][0])
+  })
+  getCurrentWeather( -54.5892082705617, -20.420219415507272, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
+    res => {
+      setCurrentTemp(res['data']['current']['temperature_2m'])
+      setCurrentWindSpeed(res['data']['current']['wind_speed_10m'])
+      setCurrentHumidity(res['data']['current']['relative_humidity_2m'])
+  })
+  const currentDay = new Date().getUTCDay()
+  for(var i = currentDay-1; i>=0; i--){
+    currentDays.push(days[i])
+  }
+  currentDays.reverse()
+  currentDays.unshift(days[currentDay])
 
   return (
     <SafeAreaView style={homeStyles.container}>
@@ -48,7 +49,7 @@ export default function Home() {
       <ScrollView>
         <View placeholder='Location' style={homeStyles.locationView}>
           <FontAwesome name='search' style={homeStyles.locationSearch}/>
-          <TextInput placeholder='Location' placeholderTextColor={'white'} style={homeStyles.locationInput} cursorColor={'rgba(255,255,255,0.2)'} onChangeText={handleDebouceText}/>
+          <TextInput placeholder='Location' placeholderTextColor={'white'} style={homeStyles.locationInput} cursorColor={'rgba(255,255,255,0.2)'}/>
         </View>
         <View>{location.map((loc, index)=>{
           let showBorder = index +1 != location.length;
@@ -75,7 +76,7 @@ export default function Home() {
               <View style={homeStyles.temp}>
                 <Text style={homeStyles.tempText}>{currentTemp}°</Text>
               </View>
-              <View style={homeStyles.minMaxWeather}><Text style={homeStyles.minMaxWeatherText}>35°-25°</Text></View>
+              <View style={homeStyles.minMaxWeather}><Text style={homeStyles.minMaxWeatherText}>{currentTempMax}° - {currentTempMin}°</Text></View>
             </View>
             
             <View>
@@ -100,12 +101,14 @@ export default function Home() {
         </View>
         <View style={homeStyles.daysWeatherContainer}>
           <FlatList 
-            data={days}
+            data={currentDays}
             renderItem={({item})=>
               <View style={homeStyles.dayWeather}>
                 <MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/>
-                <Text style={homeStyles.daysTextWeather}>{item.day} Sol</Text>
+                <Text style={homeStyles.daysTextWeather}>{item} Sol</Text>
               </View>}
+              
+              scrollEnabled={false}
           />
         </View>
 
