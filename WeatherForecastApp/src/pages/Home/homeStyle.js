@@ -125,6 +125,15 @@ export const homeStyles = StyleSheet.create({
         fontSize:25,
         color:"#ffffff",
         padding:10
+    },
+    minMaxWeather:{
+        flex:1,
+        justifyContent:"center",
+        alignItems:"center",
+
+    },
+    minMaxWeatherText:{
+        color:"#ffffff"
     }
   });
   
