@@ -1,22 +1,21 @@
-import { FlatList, SafeAreaView, SafeAreaViewBase, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { homeStyles } from './homeStyle';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import Entypo from "@expo/vector-icons/Entypo"
 import { useCallback, useState } from 'react';
 import { TextInput } from 'react-native';
 import { Image } from 'react-native';
 
-import { getCurrentWeather, getDailyWeather } from '../../../api/weather';
+import { getCurrentWeather, getDailyWeather, getHourlyWeather } from '../../../api/weather';
 
 export default function Home() {
-  const [location, setLocation] = useState([]);
   const [currentTemp, setCurrentTemp] = useState("0")
   const [currentTempMax, setCurrentTempMax] = useState("0")
   const [currentTempMin, setCurrentTempMin] = useState("0")
   const [currentWindSpeed, setCurrentWindSpeed] = useState("0")
   const [currentHumidity, setCurrentHumidity] = useState("0")
   const [currentTime, setCurrentTime] = useState("0")
+  // const [hourlyData, setHourlyData] = useState([])
   const days = ["Domingo","Segunda-Feira","Terça-Feira","Quarta-Feira","Quinta-Feira","Sexta-Feira","Sábado"];
   const currentDays = [];
   const currentDay = new Date().getUTCDay();
@@ -47,16 +46,22 @@ export default function Home() {
       }
       
   })
+  // getHourlyWeather( -54.590959024422375, -20.420257618066426, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
+  //   res => {
+  //     setHourlyData(res['data'])
+  // })
+
+  // console.log(hourlyData)
 
   return (
     <SafeAreaView style={homeStyles.container}>
-      <Image blurRadius={35} style={homeStyles.backGround} source={require("../../assets/skyBg2.jpg")}/>
+      <Image blurRadius={35} style={homeStyles.backGround} source={require("../../assets/nightBg3.jpg")}/>
       <StatusBar />
 
       <ScrollView>
         <View placeholder='Location' style={homeStyles.locationView}>
           <FontAwesome name='search' style={homeStyles.locationSearch}/>
-          <TextInput placeholder='Location' placeholderTextColor={'white'} style={homeStyles.locationInput} cursorColor={'rgba(255,255,255,0.2)'}/>
+          <TextInput placeholder='Local' placeholderTextColor={'white'} style={homeStyles.locationInput} cursorColor={'rgba(255,255,255,0.2)'}/>
         </View>
         <View style={homeStyles.infosBg}>
 
@@ -76,7 +81,6 @@ export default function Home() {
             </View>
             
             <View>
-
               <View style={homeStyles.weatherInfos}>
                 <View style={homeStyles.weatherInfosRow}>
                   <MaterialCommunityIcons style={homeStyles.weatherInfosIcon} name='weather-windy'/>
@@ -97,8 +101,26 @@ export default function Home() {
               </View>
             </View>
           </View>
-          
         </View>
+
+        {/* <View style={homeStyles.dailyInfosContainer}>
+          <View style={homeStyles.dailyInfos}>
+            <FlatList 
+                  data={hourlyData}
+                  renderItem={({item})=>
+                    <View style={homeStyles.dayWeather}>
+                      <MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/>
+                      <Text style={homeStyles.daysTextWeather}>{item}</Text>
+                    </View>}
+                    scrollEnabled
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                />
+
+          </View>
+
+        </View> */}
+
         <View style={homeStyles.daysWeatherContainer}>
             <FlatList 
               data={currentDays}

@@ -101,7 +101,7 @@ export const homeStyles = StyleSheet.create({
         flex:1,
         justifyContent:"center",
         alignItems:"center",
-        marginTop:50,
+        marginBottom:25,
         width:"100%"
     },
     daysWeather:{
@@ -130,6 +130,18 @@ export const homeStyles = StyleSheet.create({
         color:"#ffffff",
         padding:10
     },
+    dailyInfosContainer:{
+       flex:1,
+       justifyContent:"center",
+       alignItems:"center",
 
+    },
+    dailyInfos:{
+        backgroundColor:"rgba(0,0,0,0.2)",
+        marginVertical:25,
+        width:"92%",
+        borderRadius:10,
+        paddingHorizontal:10
+    }
   });
   
