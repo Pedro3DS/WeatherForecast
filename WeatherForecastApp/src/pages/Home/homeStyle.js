@@ -57,16 +57,19 @@ export const homeStyles = StyleSheet.create({
     },
     cloudIcon:{
         color:"white",
-        fontSize:150
+        fontSize:150,
+        textAlign:"center",
+        textAlignVertical:"center",
     },
     temp:{
         flex:1,
         alignItems:"center",
-        justifyContent:"center"
+        justifyContent:"center",
     },
     tempText:{
         color:"white",
-        fontSize:50
+        fontSize:50,
+        textAlign:"center"
     },
     weatherContainer:{
         flex:1,
@@ -84,7 +87,7 @@ export const homeStyles = StyleSheet.create({
     weatherInfosRow:{
         flex:1,
         flexDirection:"row",
-        alignItems:"center"
+        alignItems:"center",
     },
     weatherInfosText:{
         color:"#ffffff",
@@ -98,22 +101,23 @@ export const homeStyles = StyleSheet.create({
         flex:1,
         justifyContent:"center",
         alignItems:"center",
-        marginTop:50
+        marginTop:50,
+        width:"100%"
     },
     daysWeather:{
-        width:"92%",
+        width:"100%",
         borderRadius:10,
         flex:1,
         justifyContent:"center",
-        alignItems:"center"
+        alignItems:"center",
+        flexDirection:"row"
     },
     dayWeather:{
         flex:1,
-        flexDirection:"row",
         alignItems:"center",
+        flexDirection:"row",
         borderRadius:10,
         marginVertical:10,
-        width:"100%",
         backgroundColor:"rgba(0,0,0,0.2)",
     },
     daysIconWeather:{
@@ -122,18 +126,10 @@ export const homeStyles = StyleSheet.create({
         marginStart:15
     },
     daysTextWeather:{
-        fontSize:25,
+        fontSize:20,
         color:"#ffffff",
         padding:10
     },
-    minMaxWeather:{
-        flex:1,
-        justifyContent:"center",
-        alignItems:"center",
 
-    },
-    minMaxWeatherText:{
-        color:"#ffffff"
-    }
   });
   

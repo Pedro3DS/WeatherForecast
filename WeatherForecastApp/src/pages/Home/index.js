@@ -6,10 +6,8 @@ import Entypo from "@expo/vector-icons/Entypo"
 import { useCallback, useState } from 'react';
 import { TextInput } from 'react-native';
 import { Image } from 'react-native';
-import { fetchLocations, fetchWeatherForecast } from '../../../api/weather';
-import { debounce } from 'lodash'
 
-import { getWeather, getCurrentWeather, getDailyWeather, getHourlyWeather } from '../../../api/weather';
+import { getCurrentWeather, getDailyWeather } from '../../../api/weather';
 
 export default function Home() {
   const [location, setLocation] = useState([]);
@@ -19,31 +17,40 @@ export default function Home() {
   const [currentWindSpeed, setCurrentWindSpeed] = useState("0")
   const [currentHumidity, setCurrentHumidity] = useState("0")
   const [currentTime, setCurrentTime] = useState("0")
-  const days = ["Domingo","Segunda-Feira","Terça-Feira","Quarta-Feira","Quinta-Feira","Sexta-Feira","Sábado"]
-  const currentDays = []
-  const currentDaysTemperature = []
+  const days = ["Domingo","Segunda-Feira","Terça-Feira","Quarta-Feira","Quinta-Feira","Sexta-Feira","Sábado"];
+  const currentDays = [];
+  const currentDay = new Date().getUTCDay();
 
-  getDailyWeather( -54.5892082705617, -20.420219415507272, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
-    res => {     
-      setCurrentTempMax(res['data']['daily']['temperature_2m_max'][0])
-      setCurrentTempMin(res['data']['daily']['temperature_2m_min'][0])
-  })
-  getCurrentWeather( -54.5892082705617, -20.420219415507272, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
-    res => {
-      setCurrentTemp(res['data']['current']['temperature_2m'])
-      setCurrentWindSpeed(res['data']['current']['wind_speed_10m'])
-      setCurrentHumidity(res['data']['current']['relative_humidity_2m'])
-  })
-  const currentDay = new Date().getUTCDay()
-  for(var i = currentDay-1; i>=0; i--){
-    currentDays.push(days[i])
+  for (let i = currentDay; i < days.length; i++) {
+      currentDays.push(days[i]);
   }
-  currentDays.reverse()
-  currentDays.unshift(days[currentDay])
+
+  for (let i = 0; i < currentDay; i++) {
+      currentDays.push(days[i]);
+  }
+
+  getDailyWeather( -54.590959024422375, -20.420257618066426, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
+    res => {     
+      setCurrentTempMax(Math.round(res['data']['daily']['temperature_2m_max'][0]))
+      setCurrentTempMin(Math.round(res['data']['daily']['temperature_2m_min'][0]))
+  })
+  getCurrentWeather( -54.590959024422375, -20.420257618066426, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
+    res => {
+      setCurrentTemp(Math.round(res['data']['current']['temperature_2m']))
+      setCurrentWindSpeed(Math.round(res['data']['current']['wind_speed_10m']))
+      setCurrentHumidity(res['data']['current']['relative_humidity_2m'])
+      if(res['data']['current']['time'].slice(11,13) > 13){
+
+        setCurrentTime(res['data']['current']['time'].slice(11,16) + " pm")
+      }else{
+        setCurrentTime(res['data']['current']['time'].slice(11,16) + " am")
+      }
+      
+  })
 
   return (
     <SafeAreaView style={homeStyles.container}>
-      <Image blurRadius={35} style={homeStyles.backGround} source={require("../../assets/nightBg.jpg")}/>
+      <Image blurRadius={35} style={homeStyles.backGround} source={require("../../assets/skyBg2.jpg")}/>
       <StatusBar />
 
       <ScrollView>
@@ -51,21 +58,10 @@ export default function Home() {
           <FontAwesome name='search' style={homeStyles.locationSearch}/>
           <TextInput placeholder='Location' placeholderTextColor={'white'} style={homeStyles.locationInput} cursorColor={'rgba(255,255,255,0.2)'}/>
         </View>
-        <View>{location.map((loc, index)=>{
-          let showBorder = index +1 != location.length;
-          let borderClass = showBorder? 'border-b-2 border-b-gray-400':'';
-          return(
-            <TouchableOpacity onPress={handleText(loc)}
-              key={index}>
-              <Text> {loc?.country}</Text>
-
-            </TouchableOpacity>
-          )
-        })}</View>
         <View style={homeStyles.infosBg}>
 
           <View style={homeStyles.header}>
-            <Text style={homeStyles.headerText}>Brazil, <Text style={homeStyles.headerCityText}>MS/Campo Grande</Text></Text>
+            <Text style={homeStyles.headerText}>Campo Grande, <Text style={homeStyles.headerCityText}>Cel. Antonino</Text></Text>
           </View>
 
           <View style={homeStyles.weatherContainer}>
@@ -76,7 +72,7 @@ export default function Home() {
               <View style={homeStyles.temp}>
                 <Text style={homeStyles.tempText}>{currentTemp}°</Text>
               </View>
-              <View style={homeStyles.minMaxWeather}><Text style={homeStyles.minMaxWeatherText}>{currentTempMax}° - {currentTempMin}°</Text></View>
+              
             </View>
             
             <View>
@@ -94,24 +90,27 @@ export default function Home() {
                   <MaterialCommunityIcons style={homeStyles.weatherInfosIcon} name='clock'/>
                   <Text style={homeStyles.weatherInfosText}>{currentTime}</Text>
                 </View>
+                <View style={homeStyles.weatherInfosRow}>
+                  <MaterialCommunityIcons style={homeStyles.weatherInfosIcon} name='swap-vertical'/>
+                  <Text style={homeStyles.weatherInfosText}>{currentTempMax}° - {currentTempMin}°</Text>
+                </View>
               </View>
             </View>
           </View>
           
         </View>
         <View style={homeStyles.daysWeatherContainer}>
-          <FlatList 
-            data={currentDays}
-            renderItem={({item})=>
-              <View style={homeStyles.dayWeather}>
-                <MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/>
-                <Text style={homeStyles.daysTextWeather}>{item} Sol</Text>
-              </View>}
-              
-              scrollEnabled={false}
-          />
-        </View>
+            <FlatList 
+              data={currentDays}
+              renderItem={({item})=>
+                <View style={homeStyles.dayWeather}>
+                  <MaterialCommunityIcons style={homeStyles.daysIconWeather} name='weather-sunny'/>
+                  <Text style={homeStyles.daysTextWeather}>{item}</Text>
+                </View>}
+                scrollEnabled={false}
+            />
 
+        </View>
       </ScrollView>
 
 
