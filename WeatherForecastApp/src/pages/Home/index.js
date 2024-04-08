@@ -15,7 +15,6 @@ export default function Home() {
   const [currentWindSpeed, setCurrentWindSpeed] = useState("0")
   const [currentHumidity, setCurrentHumidity] = useState("0")
   const [currentTime, setCurrentTime] = useState("0")
-  // const [hourlyData, setHourlyData] = useState([])
   const days = ["Domingo","Segunda-Feira","Terça-Feira","Quarta-Feira","Quinta-Feira","Sexta-Feira","Sábado"];
   const currentDays = [];
   const currentDay = new Date().getUTCDay();
@@ -48,10 +47,8 @@ export default function Home() {
   })
   // getHourlyWeather( -54.590959024422375, -20.420257618066426, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
   //   res => {
-  //     setHourlyData(res['data'])
+  //     console.log(res)
   // })
-
-  // console.log(hourlyData)
 
   return (
     <SafeAreaView style={homeStyles.container}>
@@ -134,8 +131,6 @@ export default function Home() {
 
         </View>
       </ScrollView>
-
-
     </SafeAreaView>
   );
 }
